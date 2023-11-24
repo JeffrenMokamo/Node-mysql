@@ -36,16 +36,15 @@ dbConnect.connect((err) => {
 const publicDir = path.join(__dirname, './public');
 app.use(express.static(publicDir));
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 app.set('view engine', 'hbs');
 
-// Le fichier index.hbs est envoyé à la racine de notre projet express
-app.get("/", (req, res) => {
-    res.render("index");
-})
+// Les routes
+app.use('/', require('./routes/pages'))
+app.use('/auth', require('./routes/auth'))
 
-app.get("/inscription", (req, res) => {
-    res.render("inscription");
-})
 
 //Lancement du serveur
 app.listen(port, () => {
